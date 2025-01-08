@@ -1,62 +1,111 @@
-import React from "react";
-import html from "../../public/html.png";
-import css from "../../public/Ai.webp";
-import java from "../../public/python.webp";
-import javascript from "../../public/javascript.png";
-import oracle from "../../public/oracle.png";
-import spring from "../../public/spring.png";
-import springBoot from "../../public/springBoot.jpg";
-function Experiance() {
-  const cardItem = [
+import React, { useState } from "react";
+import pic from "../../public/RKM.png";
+import { AiOutlineMenu } from "react-icons/ai";
+import { IoCloseSharp } from "react-icons/io5";
+import { Link } from "react-scroll";
+
+function Navbar() {
+  const [menu, setMenu] = useState(false);
+
+  const navItems = [
     {
       id: 1,
-      logo: html,
-      name: "MongoDB",
+      text: "Home",
     },
     {
       id: 2,
-      logo: css,
-      name: "AI",
+      text: "About",
     },
     {
       id: 3,
-      logo: java,
-      name: "Python",
+      text: "Portfolio",
     },
     {
       id: 4,
-      logo: javascript,
-      name: "JavaScript",
+      text: "Experience",
     },
-    
-    
+    {
+      id: 5,
+      text: "Contact",
+    },
   ];
+
   return (
-    <div
-      name="Experiance"
-      className="max-w-screen-2xl container mx-auto px-4 md:px-40 my-16"
-    >
-      <div>
-        <h1 className="text-3xl font-bold mb-5 text-center">Experiance</h1>
-        <p className="  ">
-      
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-7 my-3">
-          {cardItem.map(({ id, logo, name }) => (
-            <div
-              className=" flex flex-col items-center justify-center border-[2px] rounded-full md:w-[200px] md:h-[200px] shadow-md p-1 cursor-pointer hover:scale-110 duration-300"
+    <div className="max-w-screen-2xl container mx-auto px-4 md:px-20 h-26 shadow-md fixed top-0 left-0 right-0 z-50 bg-black">
+      <div className="flex justify-between items-center h-16">
+        <div className="flex space-x-2 items-center">
+          <img src={pic} className="h-12 w-12 rounded-full" alt="Profile" />
+          <h1 className="font-semibold text-xl cursor-pointer text-white">
+            Kiran Rokade
+            <p className="text-sm text-gray-300">AI AND ML Software Developer</p>
+          </h1>
+        </div>
+        {/* Desktop navbar */}
+        <ul className="hidden md:flex space-x-8">
+          {navItems.map(({ id, text }) => (
+            <li
+              className="hover:scale-105 duration-200 cursor-pointer text-white"
               key={id}
             >
-              <img src={logo} className="w-[150px] rounded-full" alt="" />
-              <div>
-                <div className="">{name}</div>
-              </div>
-            </div>
+              <Link
+                to={text}
+                smooth={true}
+                duration={500}
+                offset={-70}
+                activeClass="active"
+              >
+                {text}
+              </Link>
+            </li>
           ))}
+        </ul>
+        {/* Mobile Menu Toggle */}
+        <button
+          onClick={() => setMenu(!menu)}
+          className="md:hidden text-white"
+          aria-label="Toggle menu"
+        >
+          {menu ? <IoCloseSharp size={24} /> : <AiOutlineMenu size={24} />}
+        </button>
+      </div>
+      {/* Mobile Navbar */}
+      <div
+        className={`fixed top-0 left-0 w-3/4 h-full bg-black text-white z-40 transform ${
+          menu ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 md:hidden`}
+      >
+        <div className="flex justify-between items-center h-16 px-4">
+          <h1 className="text-xl font-semibold">Menu</h1>
+          <button
+            onClick={() => setMenu(false)}
+            className="text-white"
+            aria-label="Close menu"
+          >
+            <IoCloseSharp size={24} />
+          </button>
         </div>
+        <ul className="flex flex-col items-start space-y-6 mt-8 px-4">
+          {navItems.map(({ id, text }) => (
+            <li
+              className="hover:scale-105 duration-200 font-semibold cursor-pointer"
+              key={id}
+            >
+              <Link
+                onClick={() => setMenu(false)}
+                to={text}
+                smooth={true}
+                duration={500}
+                offset={-70}
+                activeClass="active"
+              >
+                {text}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 }
 
-export default Experiance;
+export default Navbar;
